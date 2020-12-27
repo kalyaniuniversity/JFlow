@@ -9,6 +9,8 @@ import com.debacharya.jflow.nn.hiddenlayer.AbstractHiddenLayer;
 import com.debacharya.jflow.nn.inputlayer.AbstractInputLayer;
 import com.debacharya.jflow.nn.outputlayer.AbstractOutputLayer;
 
+import java.util.List;
+
 public abstract class AbstractNeuralNetwork<
 		I extends AbstractInputLayer<? extends AbstractDendrite<?>>,
 		H extends AbstractHiddenLayer<
@@ -19,6 +21,51 @@ public abstract class AbstractNeuralNetwork<
 				? extends AbstractBias<?>
 			>
 		>,
-		O extends AbstractOutputLayer<? extends AbstractSynapse<?>>
+		O extends AbstractOutputLayer<
+			? extends AbstractNeuron<
+				? extends AbstractDendrite<?>,
+				? extends AbstractSynapse<?>,
+				? extends AbstractWeight<?, ? extends AbstractDendrite<?>>,
+				? extends AbstractBias<?>
+			>
+		>
 	> implements NeuralNetwork {
+
+	private final I inputLayer;
+	private final List<H> hiddenLayers;
+	private final O outputLayer;
+
+	public AbstractNeuralNetwork(I inputLayer, O outputLayer) {
+		this.inputLayer = inputLayer;
+		this.outputLayer = outputLayer;
+		this.hiddenLayers = null;
+	}
+
+	public AbstractNeuralNetwork(I inputLayer, List<H> hiddenLayers, O outputLayer) {
+		this.inputLayer = inputLayer;
+		this.hiddenLayers = hiddenLayers;
+		this.outputLayer = outputLayer;
+	}
+
+	public I getInputLayer() {
+		return inputLayer;
+	}
+
+	public List<H> getHiddenLayers() {
+		return hiddenLayers;
+	}
+
+	public O getOutputLayer() {
+		return outputLayer;
+	}
+
+	@Override
+	public void buildNetwork() {
+		if(this.hiddenLayers == null)
+			this.fuseInputToOutputLayer();
+	}
+
+	private void fuseInputToOutputLayer() {
+
+	}
 }
