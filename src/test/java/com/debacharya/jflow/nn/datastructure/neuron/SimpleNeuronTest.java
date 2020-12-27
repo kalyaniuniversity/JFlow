@@ -32,6 +32,6 @@ public class SimpleNeuronTest {
 
 		SimpleSynapse output = simpleNeuron.feedForward();
 
-		System.out.println("Output is: " + output.getValue());
+		System.out.println("Output is: " + output.getValue(3));
 	}
 }

@@ -6,7 +6,7 @@ import com.debacharya.jflow.nn.datastructure.dendrite.AbstractDendrite;
 import com.debacharya.jflow.nn.datastructure.synapse.AbstractSynapse;
 import com.debacharya.jflow.nn.datastructure.weight.AbstractWeight;
 import com.debacharya.jflow.nn.snapshot.NeuronSnapshot;
-import com.debacharya.jflow.util.Service;
+import com.debacharya.jflow.util.Utility;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,7 +88,7 @@ public abstract class AbstractNeuron<
 		this.snapshots.add(new NeuronSnapshot<>(
 			this,
 			snapshotID,
-			Service.generateRandomLabel()
+			Utility.generateRandomLabel()
 		));
 	}
 
