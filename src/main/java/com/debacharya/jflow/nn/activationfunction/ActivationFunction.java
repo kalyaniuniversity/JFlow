@@ -10,13 +10,13 @@ import java.util.List;
 @FunctionalInterface
 public interface ActivationFunction<
 	A extends AbstractDendrite<?>,
-	B extends AbstractWeight<?, ? extends AbstractDendrite<?>>,
-	C extends AbstractBias<?>,
-	D extends AbstractSynapse<?>
+	B extends AbstractSynapse<?>,
+	C extends AbstractWeight<?, ? extends AbstractDendrite<?>>,
+	D extends AbstractBias<?>
 	> {
-	D calculateOutput(
+	B calculateOutput(
 		List<A> inputs,
-		List<B> weights,
-		C bias
+		List<C> weights,
+		D bias
 	);
 }

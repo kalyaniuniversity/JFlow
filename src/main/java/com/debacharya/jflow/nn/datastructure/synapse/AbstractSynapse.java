@@ -9,5 +9,4 @@ public abstract class AbstractSynapse<S> {
 	}
 
 	public abstract S getValue();
-	public abstract void setValue(S value);
 }

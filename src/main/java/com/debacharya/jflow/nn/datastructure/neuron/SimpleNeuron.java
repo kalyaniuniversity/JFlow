@@ -12,18 +12,13 @@ public class SimpleNeuron extends AbstractNeuron<SimpleDendrite, SimpleSynapse, 
 
 	private int snapshotID = 0;
 
-	public SimpleNeuron() {
-		super();
-	}
-
 	public SimpleNeuron(
 		List<SimpleDendrite> inputs,
-		SimpleSynapse output,
 		List<SimpleWeight> weights,
 		SimpleBias bias,
-		ActivationFunction<SimpleDendrite, SimpleWeight, SimpleBias, SimpleSynapse> activationFunction
+		ActivationFunction<SimpleDendrite, SimpleSynapse, SimpleWeight, SimpleBias> activationFunction
 	) {
-		super(inputs, output, weights, bias, activationFunction);
+		super(inputs, weights, bias, activationFunction);
 		this.takeSnapshot(this.getNextSnapshotID());
 	}
 

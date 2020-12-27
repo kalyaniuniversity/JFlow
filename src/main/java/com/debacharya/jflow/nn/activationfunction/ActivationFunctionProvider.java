@@ -8,7 +8,7 @@ import org.apache.commons.math3.analysis.function.Sigmoid;
 
 public class ActivationFunctionProvider {
 
-	public static ActivationFunction<SimpleDendrite, SimpleWeight, SimpleBias, SimpleSynapse> sigmoidFunction() {
+	public static ActivationFunction<SimpleDendrite, SimpleSynapse, SimpleWeight, SimpleBias> sigmoidFunction() {
 		return (inputs, weights, bias) -> {
 
 			long summation = 0;

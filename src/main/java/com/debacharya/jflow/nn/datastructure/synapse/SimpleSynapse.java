@@ -10,9 +10,4 @@ public class SimpleSynapse extends AbstractSynapse<Double> {
 	public Double getValue() {
 		return this.value;
 	}
-
-	@Override
-	public void setValue(Double value) {
-
-	}
 }

@@ -18,28 +18,20 @@ public abstract class AbstractNeuron<
 		S extends AbstractBias<?>
 	> implements Neuron {
 
-	private List<P> inputs;
+	private final List<P> inputs;
 	private Q output;
-	private List<R> weights;
-	private S bias;
-	private ActivationFunction<P, R, S, Q> activationFunction;
+	private final List<R> weights;
+	private final S bias;
+	private final ActivationFunction<P, Q, R, S> activationFunction;
 	private final List<NeuronSnapshot<P, Q, R, S>> snapshots;
-
-	public AbstractNeuron() {
-		this.inputs = new ArrayList<>();
-		this.weights = new ArrayList<>();
-		this.snapshots = new ArrayList<>();
-	}
 
 	public AbstractNeuron(
 		List<P> inputs,
-		Q output,
 		List<R> weights,
 		S bias,
-		ActivationFunction<P, R, S, Q> activationFunction
+		ActivationFunction<P, Q, R, S> activationFunction
 	) {
 		this.inputs = inputs;
-		this.output = output;
 		this.weights = weights;
 		this.bias = bias;
 		this.activationFunction = activationFunction;
@@ -54,10 +46,6 @@ public abstract class AbstractNeuron<
 		if(index >= this.inputs.size())
 			throw new ArrayIndexOutOfBoundsException("There are no Neuron Inputs at index: " + index);
 		return this.inputs.get(index);
-	}
-
-	public void setInputs(List<P> inputs) {
-		this.inputs = inputs;
 	}
 
 	public void setInput(P input, int index) {
@@ -84,19 +72,11 @@ public abstract class AbstractNeuron<
 		return this.weights.get(index);
 	}
 
-	public void setWeights(List<R> weights) {
-		this.weights = weights;
-	}
-
 	public S getBias() {
 		return bias;
 	}
 
-	public void setBias(S bias) {
-		this.bias = bias;
-	}
-
-	public ActivationFunction<P, R, S, Q> getActivationFunction() {
+	public ActivationFunction<P, Q, R, S> getActivationFunction() {
 		return this.activationFunction;
 	}
 
@@ -110,5 +90,15 @@ public abstract class AbstractNeuron<
 			snapshotID,
 			Service.generateRandomLabel()
 		));
+	}
+
+	public NeuronSnapshot<P, Q, R, S> getSnapshot(int snapshotID) {
+		return this
+			.snapshots
+			.stream()
+			.parallel()
+			.filter(snapshot -> snapshot.getSnapshotID() == snapshotID)
+			.findFirst()
+			.orElse(null);
 	}
 }

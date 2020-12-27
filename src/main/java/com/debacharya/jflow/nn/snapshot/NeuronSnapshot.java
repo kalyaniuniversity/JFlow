@@ -46,4 +46,8 @@ public class NeuronSnapshot<
 	public List<P> getInputs() {
 		return this.inputs;
 	}
+
+	public int getSnapshotID() {
+		return snapshotID;
+	}
 }

@@ -8,6 +8,6 @@ public class SimpleBias extends AbstractBias<Double> {
 
 	@Override
 	public Double getValue() {
-		return null;
+		return this.value;
 	}
 }
