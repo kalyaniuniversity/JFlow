@@ -18,7 +18,7 @@ public class NeuronSnapshot<
 
 	private final AbstractNeuron<P, Q, R, S> neuron;
 	private final long timeOfCreation;
-	private final List<P> inputs;
+	private List<P> inputs;
 	private long lastUpdate;
 	private int snapshotID;
 	private String label;
@@ -32,7 +32,9 @@ public class NeuronSnapshot<
 		this.neuron = neuron;
 		this.snapshotID = snapshotID;
 		this.label = label;
-		this.inputs = AbstractDendrite.cloneDendrites(this.neuron.getInputs());
+
+		if(this.neuron.areInputsSet())
+			this.inputs = AbstractDendrite.cloneDendrites(this.neuron.getInputs());
 	}
 
 	public NeuronSnapshot(AbstractNeuron<P, Q, R, S> neuron) {

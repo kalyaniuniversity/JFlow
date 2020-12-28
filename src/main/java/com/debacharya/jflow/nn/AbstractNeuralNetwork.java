@@ -27,7 +27,8 @@ public abstract class AbstractNeuralNetwork<
 				? extends AbstractSynapse<?>,
 				? extends AbstractWeight<?, ? extends AbstractDendrite<?>>,
 				? extends AbstractBias<?>
-			>
+			>,
+			? extends AbstractSynapse<?>
 		>
 	> implements NeuralNetwork {
 
@@ -65,7 +66,11 @@ public abstract class AbstractNeuralNetwork<
 			this.fuseInputToOutputLayer();
 	}
 
-	private void fuseInputToOutputLayer() {
-
+	@Override
+	public void run() {
+		this.buildNetwork();
+		this.processOutput();
 	}
+
+	public abstract void fuseInputToOutputLayer();
 }

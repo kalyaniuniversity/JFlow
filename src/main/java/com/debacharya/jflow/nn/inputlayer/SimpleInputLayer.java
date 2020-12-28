@@ -1,7 +1,6 @@
 package com.debacharya.jflow.nn.inputlayer;
 
 import com.debacharya.jflow.nn.datastructure.dendrite.SimpleDendrite;
-import com.debacharya.jflow.nn.datastructure.neuron.SimpleNeuron;
 
 import java.util.List;
 

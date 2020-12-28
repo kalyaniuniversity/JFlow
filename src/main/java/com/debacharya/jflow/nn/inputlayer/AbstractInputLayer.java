@@ -1,10 +1,6 @@
 package com.debacharya.jflow.nn.inputlayer;
 
-import com.debacharya.jflow.nn.datastructure.bias.AbstractBias;
 import com.debacharya.jflow.nn.datastructure.dendrite.AbstractDendrite;
-import com.debacharya.jflow.nn.datastructure.neuron.AbstractNeuron;
-import com.debacharya.jflow.nn.datastructure.synapse.AbstractSynapse;
-import com.debacharya.jflow.nn.datastructure.weight.AbstractWeight;
 
 import java.util.List;
 

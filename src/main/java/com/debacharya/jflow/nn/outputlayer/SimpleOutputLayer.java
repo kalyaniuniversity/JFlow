@@ -8,15 +8,25 @@ import com.debacharya.jflow.nn.datastructure.synapse.SimpleSynapse;
 import com.debacharya.jflow.nn.datastructure.weight.SimpleWeight;
 import com.debacharya.jflow.nn.inputlayer.SimpleInputLayer;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class SimpleOutputLayer extends AbstractOutputLayer<SimpleNeuron> {
+public class SimpleOutputLayer extends AbstractOutputLayer<SimpleNeuron, SimpleSynapse> {
 
 	public SimpleOutputLayer(SimpleNeuron output) {
 		super(Collections.singletonList(output));
+	}
+
+	public SimpleOutputLayer(
+		List<SimpleWeight> weights,
+		SimpleBias bias,
+		ActivationFunction<SimpleDendrite, SimpleSynapse, SimpleWeight, SimpleBias> activationFunction
+	) {
+		this(new SimpleNeuron(
+			weights,
+			bias,
+			activationFunction
+		));
 	}
 
 	public SimpleOutputLayer(
@@ -39,5 +49,9 @@ public class SimpleOutputLayer extends AbstractOutputLayer<SimpleNeuron> {
 
 	public SimpleSynapse getOutputSynapse() {
 		return this.getOutputs().get(0).getOutput();
+	}
+
+	public SimpleSynapse getResult() {
+		return this.getResults().get(0);
 	}
 }

@@ -3,9 +3,8 @@ package com.debacharya.jflow.nn;
 import com.debacharya.jflow.nn.activationfunction.ActivationFunctionProvider;
 import com.debacharya.jflow.nn.datastructure.bias.SimpleBias;
 import com.debacharya.jflow.nn.datastructure.dendrite.SimpleDendrite;
-import com.debacharya.jflow.nn.datastructure.neuron.SimpleNeuron;
+import com.debacharya.jflow.nn.datastructure.synapse.SimpleSynapse;
 import com.debacharya.jflow.nn.datastructure.weight.SimpleWeight;
-import com.debacharya.jflow.nn.hiddenlayer.SimpleHiddenLayer;
 import com.debacharya.jflow.nn.inputlayer.SimpleInputLayer;
 import com.debacharya.jflow.nn.outputlayer.SimpleOutputLayer;
 
@@ -31,12 +30,22 @@ public class SimpleNeuralNetworkTest {
 		weights.add(new SimpleWeight(1));
 
 		SimpleInputLayer inputLayer = new SimpleInputLayer(inputs);
-
-		SimpleNeuralNetwork neuralNetwork = new SimpleNeuralNetwork(
+		SimpleOutputLayer outputLayer = new SimpleOutputLayer(
 			inputLayer,
 			weights,
 			bias,
 			ActivationFunctionProvider.sigmoidFunction()
 		);
+
+		SimpleNeuralNetwork neuralNetwork = new SimpleNeuralNetwork(
+			inputLayer,
+			outputLayer
+		);
+
+		neuralNetwork.run();
+
+		SimpleSynapse output = neuralNetwork.getOutputLayer().getResult();
+
+		System.out.println("Output is: " + output.getValue());
 	}
 }

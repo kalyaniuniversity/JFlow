@@ -18,7 +18,7 @@ public abstract class AbstractNeuron<
 		S extends AbstractBias<?>
 	> implements Neuron {
 
-	private final List<P> inputs;
+	private List<P> inputs;
 	private Q output;
 	private final List<R> weights;
 	private final S bias;
@@ -26,16 +26,24 @@ public abstract class AbstractNeuron<
 	private final List<NeuronSnapshot<P, Q, R, S>> snapshots;
 
 	public AbstractNeuron(
+		List<R> weights,
+		S bias,
+		ActivationFunction<P, Q, R, S> activationFunction
+	) {
+		this.weights = weights;
+		this.bias = bias;
+		this.activationFunction = activationFunction;
+		this.snapshots = new ArrayList<>();
+	}
+
+	public AbstractNeuron(
 		List<P> inputs,
 		List<R> weights,
 		S bias,
 		ActivationFunction<P, Q, R, S> activationFunction
 	) {
+		this(weights, bias, activationFunction);
 		this.inputs = inputs;
-		this.weights = weights;
-		this.bias = bias;
-		this.activationFunction = activationFunction;
-		this.snapshots = new ArrayList<>();
 	}
 
 	public List<P> getInputs() {
@@ -52,6 +60,14 @@ public abstract class AbstractNeuron<
 		if(index >= this.inputs.size())
 			throw new ArrayIndexOutOfBoundsException("There is no Neuron Input at index: " + index);
 		this.inputs.set(index, input);
+	}
+
+	public void setInputs(List<P> inputs) {
+		this.inputs = inputs;
+	}
+
+	public boolean areInputsSet() {
+		return (this.inputs != null) && !this.inputs.isEmpty();
 	}
 
 	public Q getOutput() {
