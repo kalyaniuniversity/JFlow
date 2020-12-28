@@ -68,8 +68,7 @@ public abstract class AbstractNeuralNetwork<
 			return;
 		}
 
-		if(this.hiddenLayers.size() == 1)
-			this.connectLastHiddenLayerToOutput(0);
+		this.connectLastHiddenLayerToOutput();
 	}
 
 	@Override
@@ -78,6 +77,13 @@ public abstract class AbstractNeuralNetwork<
 		this.processOutput();
 	}
 
+	public void connectLastHiddenLayerToOutput() {
+		if(this.hiddenLayers != null)
+			this.shorCircuitHiddenLayerToOutput(
+				this.hiddenLayers.size() - 1
+			);
+	}
+
 	public abstract void fuseInputToOutputLayer();
-	public abstract void connectLastHiddenLayerToOutput(int hiddenLayerIndex);
+	public abstract void shorCircuitHiddenLayerToOutput(int hiddenLayerIndex);
 }

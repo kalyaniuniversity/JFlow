@@ -16,7 +16,7 @@ public abstract class AbstractNeuron<
 		Q extends AbstractSynapse<?>,
 		R extends AbstractWeight<?, ? extends AbstractDendrite<?>>,
 		S extends AbstractBias<?>
-	> implements Neuron {
+	> implements Neuron<Q> {
 
 	private List<P> inputs;
 	private Q output;

@@ -22,4 +22,8 @@ public abstract class AbstractHiddenLayer<
 	public AbstractHiddenLayer(List<H> neurons) {
 		this.neurons = neurons;
 	}
+
+	public List<H> getNeurons() {
+		return neurons;
+	}
 }

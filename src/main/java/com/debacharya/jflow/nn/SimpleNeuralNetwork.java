@@ -4,12 +4,14 @@ import com.debacharya.jflow.nn.activationfunction.ActivationFunction;
 import com.debacharya.jflow.nn.datastructure.bias.SimpleBias;
 import com.debacharya.jflow.nn.datastructure.dendrite.SimpleDendrite;
 import com.debacharya.jflow.nn.datastructure.neuron.Neuron;
+import com.debacharya.jflow.nn.datastructure.neuron.SimpleNeuron;
 import com.debacharya.jflow.nn.datastructure.synapse.SimpleSynapse;
 import com.debacharya.jflow.nn.datastructure.weight.SimpleWeight;
 import com.debacharya.jflow.nn.hiddenlayer.SimpleHiddenLayer;
 import com.debacharya.jflow.nn.inputlayer.SimpleInputLayer;
 import com.debacharya.jflow.nn.outputlayer.SimpleOutputLayer;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -67,7 +69,22 @@ public class SimpleNeuralNetwork extends AbstractNeuralNetwork<SimpleInputLayer,
 	}
 
 	@Override
-	public void connectLastHiddenLayerToOutput(int hiddenLayerIndex) {
+	public void shorCircuitHiddenLayerToOutput(int hiddenLayerIndex) {
+
+		SimpleHiddenLayer hiddenLayer = this.getHiddenLayers().get(hiddenLayerIndex);
+		List<SimpleNeuron> neurons = hiddenLayer.getNeurons();
+		List<SimpleSynapse> outputs = new ArrayList<>();
+
+		neurons.stream().parallel().forEach(neuron -> {
+			SimpleSynapse output = neuron.getOutput();
+			outputs.add(output);
+		});
+
+		SimpleOutputLayer outputLayer = this.getOutputLayer();
+		SimpleNeuron outputNeuron = outputLayer.getOutput();
+
+
+
 
 	}
 }
