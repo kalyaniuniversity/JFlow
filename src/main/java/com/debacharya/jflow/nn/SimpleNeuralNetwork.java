@@ -65,4 +65,9 @@ public class SimpleNeuralNetwork extends AbstractNeuralNetwork<SimpleInputLayer,
 				this.getInputLayer().getInputs()
 			);
 	}
+
+	@Override
+	public void connectLastHiddenLayerToOutput(int hiddenLayerIndex) {
+
+	}
 }

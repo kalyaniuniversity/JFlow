@@ -62,8 +62,14 @@ public abstract class AbstractNeuralNetwork<
 
 	@Override
 	public void buildNetwork() {
-		if(this.hiddenLayers == null)
+
+		if(this.hiddenLayers == null) {
 			this.fuseInputToOutputLayer();
+			return;
+		}
+
+		if(this.hiddenLayers.size() == 1)
+			this.connectLastHiddenLayerToOutput(0);
 	}
 
 	@Override
@@ -73,4 +79,5 @@ public abstract class AbstractNeuralNetwork<
 	}
 
 	public abstract void fuseInputToOutputLayer();
+	public abstract void connectLastHiddenLayerToOutput(int hiddenLayerIndex);
 }

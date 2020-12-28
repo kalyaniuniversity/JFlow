@@ -9,6 +9,10 @@ import org.apache.commons.math3.analysis.function.Sigmoid;
 public class ActivationFunctionProvider {
 
 	public static ActivationFunction<SimpleDendrite, SimpleSynapse, SimpleWeight, SimpleBias> sigmoidFunction() {
+		return ActivationFunctionProvider.sigmoidFunction(0, 1);
+	}
+
+	public static ActivationFunction<SimpleDendrite, SimpleSynapse, SimpleWeight, SimpleBias> sigmoidFunction(double low, double high) {
 		return (inputs, weights, bias) -> {
 
 			long summation = 0;
@@ -18,7 +22,7 @@ public class ActivationFunctionProvider {
 
 			summation += bias.getValue();
 
-			return new SimpleSynapse(new Sigmoid(0, 1).value(summation));
+			return new SimpleSynapse(new Sigmoid(low, high).value(summation));
 		};
 	}
 }
