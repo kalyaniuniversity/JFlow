@@ -17,7 +17,7 @@ public abstract class AbstractHiddenLayer<
 		>
 	> {
 
-	private List<H> neurons;
+	private final List<H> neurons;
 
 	public AbstractHiddenLayer(List<H> neurons) {
 		this.neurons = neurons;

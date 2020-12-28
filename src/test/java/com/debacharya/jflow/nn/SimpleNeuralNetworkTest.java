@@ -1,6 +1,7 @@
 package com.debacharya.jflow.nn;
 
 import com.debacharya.jflow.nn.activationfunction.ActivationFunctionProvider;
+import com.debacharya.jflow.nn.connector.SimpleNeuralConnector;
 import com.debacharya.jflow.nn.datastructure.bias.SimpleBias;
 import com.debacharya.jflow.nn.datastructure.dendrite.SimpleDendrite;
 import com.debacharya.jflow.nn.datastructure.synapse.SimpleSynapse;
@@ -16,7 +17,8 @@ import java.util.List;
 public class SimpleNeuralNetworkTest {
 
 	public static void main(String[] args) {
-		SimpleNeuralNetworkTest.noHiddenLayerTest();
+//		SimpleNeuralNetworkTest.noHiddenLayerTest();
+		SimpleNeuralNetworkTest.oneHiddenLayerTest();
 	}
 
 	public static void oneHiddenLayerTest() {
@@ -31,6 +33,7 @@ public class SimpleNeuralNetworkTest {
 		weights.add(new SimpleWeight(0));
 		weights.add(new SimpleWeight(1));
 
+		SimpleNeuralConnector neuralConnector = new SimpleNeuralConnector();
 		SimpleInputLayer inputLayer = new SimpleInputLayer(inputs);
 		List<SimpleHiddenLayer> hiddenLayers = new ArrayList<>();
 		SimpleOutputLayer outputLayer = new SimpleOutputLayer(
@@ -51,7 +54,8 @@ public class SimpleNeuralNetworkTest {
 		SimpleNeuralNetwork neuralNetwork = new SimpleNeuralNetwork(
 			inputLayer,
 			hiddenLayers,
-			outputLayer
+			outputLayer,
+			neuralConnector
 		);
 
 		neuralNetwork.run();

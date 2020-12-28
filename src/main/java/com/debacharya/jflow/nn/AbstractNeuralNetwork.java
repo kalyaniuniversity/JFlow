@@ -1,5 +1,6 @@
 package com.debacharya.jflow.nn;
 
+import com.debacharya.jflow.nn.connector.NeuralConnector;
 import com.debacharya.jflow.nn.datastructure.bias.AbstractBias;
 import com.debacharya.jflow.nn.datastructure.dendrite.AbstractDendrite;
 import com.debacharya.jflow.nn.datastructure.neuron.AbstractNeuron;
@@ -29,23 +30,30 @@ public abstract class AbstractNeuralNetwork<
 				? extends AbstractBias<?>
 			>,
 			? extends AbstractSynapse<?>
+		>,
+		C extends NeuralConnector<
+			? extends AbstractDendrite<?>,
+			? extends AbstractSynapse<?>
 		>
-	> implements NeuralNetwork {
+	> implements NeuralNetwork<H> {
 
 	private final I inputLayer;
 	private final List<H> hiddenLayers;
 	private final O outputLayer;
+	private final C neuralConnector;
 
 	public AbstractNeuralNetwork(I inputLayer, O outputLayer) {
 		this.inputLayer = inputLayer;
 		this.outputLayer = outputLayer;
 		this.hiddenLayers = null;
+		this.neuralConnector = null;
 	}
 
-	public AbstractNeuralNetwork(I inputLayer, List<H> hiddenLayers, O outputLayer) {
+	public AbstractNeuralNetwork(I inputLayer, List<H> hiddenLayers, O outputLayer, C neuralConnector) {
 		this.inputLayer = inputLayer;
 		this.hiddenLayers = hiddenLayers;
 		this.outputLayer = outputLayer;
+		this.neuralConnector = neuralConnector;
 	}
 
 	public I getInputLayer() {
@@ -60,6 +68,10 @@ public abstract class AbstractNeuralNetwork<
 		return outputLayer;
 	}
 
+	public C getNeuralConnector() {
+		return neuralConnector;
+	}
+
 	@Override
 	public void buildNetwork() {
 
@@ -68,22 +80,34 @@ public abstract class AbstractNeuralNetwork<
 			return;
 		}
 
-		this.connectLastHiddenLayerToOutput();
+		this.connectInputToFirstHiddenLayer();
 	}
 
 	@Override
 	public void run() {
+
 		this.buildNetwork();
+
+		if(this.hiddenLayers != null && !this.hiddenLayers.isEmpty())
+			this.hiddenLayers.forEach(this::prepareHiddenLayer);
+
+		this.connectLastHiddenLayerToOutput();
 		this.processOutput();
 	}
 
+	public void connectInputToFirstHiddenLayer() {
+		if(this.hiddenLayers != null && !this.hiddenLayers.isEmpty())
+			this.shorCircuitInputToHiddenLayer(0);
+	}
+
 	public void connectLastHiddenLayerToOutput() {
-		if(this.hiddenLayers != null)
+		if(this.hiddenLayers != null && !this.hiddenLayers.isEmpty())
 			this.shorCircuitHiddenLayerToOutput(
 				this.hiddenLayers.size() - 1
 			);
 	}
 
 	public abstract void fuseInputToOutputLayer();
+	public abstract void shorCircuitInputToHiddenLayer(int hiddenLayerIndex);
 	public abstract void shorCircuitHiddenLayerToOutput(int hiddenLayerIndex);
 }

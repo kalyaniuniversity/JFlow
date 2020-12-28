@@ -1,12 +1,15 @@
 package com.debacharya.jflow.nn;
 
 import com.debacharya.jflow.nn.activationfunction.ActivationFunction;
+import com.debacharya.jflow.nn.connector.SimpleNeuralConnector;
 import com.debacharya.jflow.nn.datastructure.bias.SimpleBias;
 import com.debacharya.jflow.nn.datastructure.dendrite.SimpleDendrite;
+import com.debacharya.jflow.nn.datastructure.neuron.AbstractNeuron;
 import com.debacharya.jflow.nn.datastructure.neuron.Neuron;
 import com.debacharya.jflow.nn.datastructure.neuron.SimpleNeuron;
 import com.debacharya.jflow.nn.datastructure.synapse.SimpleSynapse;
 import com.debacharya.jflow.nn.datastructure.weight.SimpleWeight;
+import com.debacharya.jflow.nn.hiddenlayer.AbstractHiddenLayer;
 import com.debacharya.jflow.nn.hiddenlayer.SimpleHiddenLayer;
 import com.debacharya.jflow.nn.inputlayer.SimpleInputLayer;
 import com.debacharya.jflow.nn.outputlayer.SimpleOutputLayer;
@@ -15,7 +18,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class SimpleNeuralNetwork extends AbstractNeuralNetwork<SimpleInputLayer, SimpleHiddenLayer, SimpleOutputLayer> {
+public class SimpleNeuralNetwork extends AbstractNeuralNetwork<
+		SimpleInputLayer,
+		SimpleHiddenLayer,
+		SimpleOutputLayer,
+		SimpleNeuralConnector
+	> {
 
 	public SimpleNeuralNetwork(SimpleInputLayer inputLayer, SimpleOutputLayer outputLayer) {
 		super(inputLayer, outputLayer);
@@ -24,9 +32,10 @@ public class SimpleNeuralNetwork extends AbstractNeuralNetwork<SimpleInputLayer,
 	public SimpleNeuralNetwork(
 		SimpleInputLayer inputLayer,
 		List<SimpleHiddenLayer> hiddenLayers,
-		SimpleOutputLayer outputLayer
+		SimpleOutputLayer outputLayer,
+		SimpleNeuralConnector neuralConnector
 	) {
-		super(inputLayer, hiddenLayers, outputLayer);
+		super(inputLayer, hiddenLayers, outputLayer, neuralConnector);
 	}
 
 	public SimpleNeuralNetwork(
@@ -61,6 +70,17 @@ public class SimpleNeuralNetwork extends AbstractNeuralNetwork<SimpleInputLayer,
 	}
 
 	@Override
+	public void prepareHiddenLayer(SimpleHiddenLayer layer) {
+
+		List<SimpleNeuron> neurons = layer.getNeurons();
+
+		neurons.forEach(neuron -> {
+			SimpleSynapse output = neuron.feedForward();
+			neuron.setOutput(output);
+		});
+	}
+
+	@Override
 	public void fuseInputToOutputLayer() {
 		if(!this.getOutputLayer().getOutput().areInputsSet())
 			this.getOutputLayer().getOutput().setInputs(
@@ -69,22 +89,31 @@ public class SimpleNeuralNetwork extends AbstractNeuralNetwork<SimpleInputLayer,
 	}
 
 	@Override
+	public void shorCircuitInputToHiddenLayer(int hiddenLayerIndex) {
+		this
+			.getHiddenLayers()
+			.get(hiddenLayerIndex)
+			.getNeurons()
+			.forEach(neuron -> neuron.setInputs(
+				this.getInputLayer().getInputs()
+			));
+	}
+
+	@Override
 	public void shorCircuitHiddenLayerToOutput(int hiddenLayerIndex) {
-
-		SimpleHiddenLayer hiddenLayer = this.getHiddenLayers().get(hiddenLayerIndex);
-		List<SimpleNeuron> neurons = hiddenLayer.getNeurons();
-		List<SimpleSynapse> outputs = new ArrayList<>();
-
-		neurons.stream().parallel().forEach(neuron -> {
-			SimpleSynapse output = neuron.getOutput();
-			outputs.add(output);
-		});
-
-		SimpleOutputLayer outputLayer = this.getOutputLayer();
-		SimpleNeuron outputNeuron = outputLayer.getOutput();
-
-
-
-
+		this
+			.getOutputLayer()
+			.getOutput()
+			.setInputs(
+				this.getNeuralConnector().connect(
+					this
+						.getHiddenLayers()
+						.get(hiddenLayerIndex)
+						.getNeurons()
+						.stream()
+						.map(SimpleNeuron::getOutput)
+						.collect(Collectors.toList())
+				)
+			);
 	}
 }
