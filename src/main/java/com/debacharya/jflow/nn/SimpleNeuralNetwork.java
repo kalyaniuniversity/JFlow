@@ -54,6 +54,7 @@ public class SimpleNeuralNetwork extends AbstractNeuralNetwork<
 
 	@Override
 	public void processOutput() {
+
 		List<SimpleSynapse> result = this
 			.getOutputLayer()
 			.getOutputs()
@@ -93,7 +94,8 @@ public class SimpleNeuralNetwork extends AbstractNeuralNetwork<
 			.get(hiddenLayerIndex)
 			.getNeurons()
 			.forEach(neuron -> neuron.setInputs(
-				this.getInputLayer().getInputs()
+				this.getInputLayer().getInputs(),
+				true
 			));
 	}
 
@@ -111,7 +113,8 @@ public class SimpleNeuralNetwork extends AbstractNeuralNetwork<
 						.stream()
 						.map(SimpleNeuron::getOutput)
 						.collect(Collectors.toList())
-				)
+				),
+				true
 			);
 	}
 }

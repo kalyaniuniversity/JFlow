@@ -15,7 +15,7 @@ public class ActivationFunctionProvider {
 	public static ActivationFunction<SimpleDendrite, SimpleSynapse, SimpleWeight, SimpleBias> sigmoidFunction(double low, double high) {
 		return (inputs, weights, bias) -> {
 
-			long summation = 0;
+			double summation = 0;
 
 			for(int i = 0; i < inputs.size(); i++)
 				summation += weights.get(i).runWeightFunction(inputs.get(i)).getValue();
