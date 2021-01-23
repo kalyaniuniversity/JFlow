@@ -4,17 +4,14 @@ import com.debacharya.jflow.nn.activationfunction.ActivationFunction;
 import com.debacharya.jflow.nn.connector.SimpleNeuralConnector;
 import com.debacharya.jflow.nn.datastructure.bias.SimpleBias;
 import com.debacharya.jflow.nn.datastructure.dendrite.SimpleDendrite;
-import com.debacharya.jflow.nn.datastructure.neuron.AbstractNeuron;
 import com.debacharya.jflow.nn.datastructure.neuron.Neuron;
 import com.debacharya.jflow.nn.datastructure.neuron.SimpleNeuron;
 import com.debacharya.jflow.nn.datastructure.synapse.SimpleSynapse;
 import com.debacharya.jflow.nn.datastructure.weight.SimpleWeight;
-import com.debacharya.jflow.nn.hiddenlayer.AbstractHiddenLayer;
 import com.debacharya.jflow.nn.hiddenlayer.SimpleHiddenLayer;
 import com.debacharya.jflow.nn.inputlayer.SimpleInputLayer;
 import com.debacharya.jflow.nn.outputlayer.SimpleOutputLayer;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -84,7 +81,8 @@ public class SimpleNeuralNetwork extends AbstractNeuralNetwork<
 	public void fuseInputToOutputLayer() {
 		if(!this.getOutputLayer().getOutput().areInputsSet())
 			this.getOutputLayer().getOutput().setInputs(
-				this.getInputLayer().getInputs()
+				this.getInputLayer().getInputs(),
+				true
 			);
 	}
 

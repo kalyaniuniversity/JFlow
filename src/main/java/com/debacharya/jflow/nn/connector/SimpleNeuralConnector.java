@@ -1,11 +1,8 @@
 package com.debacharya.jflow.nn.connector;
 
-import com.debacharya.jflow.nn.datastructure.dendrite.AbstractDendrite;
 import com.debacharya.jflow.nn.datastructure.dendrite.SimpleDendrite;
-import com.debacharya.jflow.nn.datastructure.synapse.AbstractSynapse;
 import com.debacharya.jflow.nn.datastructure.synapse.SimpleSynapse;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 

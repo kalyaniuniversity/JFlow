@@ -10,6 +10,7 @@ import com.debacharya.jflow.util.Utility;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public abstract class AbstractNeuron<
 		P extends AbstractDendrite<?>,
@@ -63,7 +64,17 @@ public abstract class AbstractNeuron<
 	}
 
 	public void setInputs(List<P> inputs) {
-		this.inputs = inputs;
+		this.setInputs(inputs, true);
+	}
+
+	public void setInputs(List<P> inputs, boolean copy) {
+		if(!copy)
+			this.inputs = inputs;
+		else {
+			List<P> listCopy = new ArrayList<>();
+			inputs.forEach(input -> listCopy.add(input.getCopy()));
+			this.inputs = listCopy;
+		}
 	}
 
 	public boolean areInputsSet() {
