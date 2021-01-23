@@ -88,8 +88,14 @@ public abstract class AbstractNeuralNetwork<
 
 		this.buildNetwork();
 
-		if(this.hiddenLayers != null && !this.hiddenLayers.isEmpty())
-			this.hiddenLayers.forEach(this::prepareHiddenLayer);
+		if(this.hiddenLayers != null && this.hiddenLayers.size() == 1)
+			this.prepareHiddenLayer(this.hiddenLayers.get(0));
+
+		if(this.hiddenLayers != null && this.hiddenLayers.size() > 1) {
+			for(int i = 0; i < (this.hiddenLayers.size() - 1); i++)
+				this.connectHiddenLayers(i, i + 1);
+			this.activateLastHiddenLayer();
+		}
 
 		this.connectLastHiddenLayerToOutput();
 		this.processOutput();
@@ -107,7 +113,15 @@ public abstract class AbstractNeuralNetwork<
 			);
 	}
 
+	public void activateLastHiddenLayer() {
+		if(this.hiddenLayers != null && !this.hiddenLayers.isEmpty())
+			this.activateHiddenLayer(
+				this.hiddenLayers.size() - 1
+			);
+	}
+
 	public abstract void fuseInputToOutputLayer();
 	public abstract void shorCircuitInputToHiddenLayer(int hiddenLayerIndex);
 	public abstract void shorCircuitHiddenLayerToOutput(int hiddenLayerIndex);
+	public abstract void connectHiddenLayers(int hiddenLayerFromIndex, int hiddenLayerToIndex);
 }

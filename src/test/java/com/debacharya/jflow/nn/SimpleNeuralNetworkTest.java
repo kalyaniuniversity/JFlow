@@ -18,7 +18,68 @@ public class SimpleNeuralNetworkTest {
 
 	public static void main(String[] args) {
 //		SimpleNeuralNetworkTest.noHiddenLayerTest();
-		SimpleNeuralNetworkTest.oneHiddenLayerTest();
+//		SimpleNeuralNetworkTest.oneHiddenLayerTest();
+		SimpleNeuralNetworkTest.manyHiddenLayerTest();
+	}
+
+	public static void manyHiddenLayerTest() {
+
+		List<SimpleDendrite> inputs = new ArrayList<>();
+		List<SimpleWeight> weights = new ArrayList<>();
+		SimpleBias bias = new SimpleBias(0);
+
+		inputs.add(new SimpleDendrite(2));
+		inputs.add(new SimpleDendrite(3));
+
+		weights.add(new SimpleWeight(0));
+		weights.add(new SimpleWeight(1));
+
+		SimpleNeuralConnector neuralConnector = new SimpleNeuralConnector();
+		SimpleInputLayer inputLayer = new SimpleInputLayer(inputs);
+		List<SimpleHiddenLayer> hiddenLayers = new ArrayList<>();
+		SimpleOutputLayer outputLayer = new SimpleOutputLayer(
+			weights,
+			bias,
+			ActivationFunctionProvider.sigmoidFunction()
+		);
+
+		SimpleHiddenLayer hiddenLayer1 = HiddenLayerProvider.generateSimpleHiddenLayer(
+			2,
+			weights,
+			bias,
+			ActivationFunctionProvider.sigmoidFunction()
+		);
+
+		SimpleHiddenLayer hiddenLayer2 = HiddenLayerProvider.generateSimpleHiddenLayer(
+			2,
+			weights,
+			bias,
+			ActivationFunctionProvider.sigmoidFunction()
+		);
+
+		SimpleHiddenLayer hiddenLayer3 = HiddenLayerProvider.generateSimpleHiddenLayer(
+			2,
+			weights,
+			bias,
+			ActivationFunctionProvider.sigmoidFunction()
+		);
+
+		hiddenLayers.add(hiddenLayer1);
+		hiddenLayers.add(hiddenLayer2);
+		hiddenLayers.add(hiddenLayer3);
+
+		SimpleNeuralNetwork neuralNetwork = new SimpleNeuralNetwork(
+			inputLayer,
+			hiddenLayers,
+			outputLayer,
+			neuralConnector
+		);
+
+		neuralNetwork.run();
+
+		SimpleSynapse output = neuralNetwork.getOutputLayer().getResult();
+
+		System.out.println("Output is: " + output.getValue());
 	}
 
 	public static void oneHiddenLayerTest() {

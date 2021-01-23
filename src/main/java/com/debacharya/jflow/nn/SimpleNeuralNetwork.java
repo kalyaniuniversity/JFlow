@@ -79,6 +79,17 @@ public class SimpleNeuralNetwork extends AbstractNeuralNetwork<
 	}
 
 	@Override
+	public void activateHiddenLayer(int hiddenLayerIndex) {
+		this
+			.getHiddenLayers()
+			.get(hiddenLayerIndex)
+			.getNeurons()
+			.forEach(
+				neuron -> neuron.setOutput(neuron.feedForward())
+			);
+	}
+
+	@Override
 	public void fuseInputToOutputLayer() {
 		if(!this.getOutputLayer().getOutput().areInputsSet())
 			this.getOutputLayer().getOutput().setInputs(
@@ -116,5 +127,35 @@ public class SimpleNeuralNetwork extends AbstractNeuralNetwork<
 				),
 				true
 			);
+	}
+
+	@Override
+	public void connectHiddenLayers(int hiddenLayerFromIndex, int hiddenLayerToIndex) {
+
+		//TODO: feed forward on hidden layers here during connection might not work,
+		// they need to be run after connection is complete.
+		// This might need some more work / thinking to do.
+		// Look into activateHiddenLayer method as well.
+		// Things need to be connected properly.
+		// Or this might just work, since at each stage only two hidden layers are being connected and before connection
+		// the feed forward is executed before setting the output as input to the next layer! activateHiddenLayer might not
+		// be necessary at all!
+		// Tests shall confirm.
+
+		SimpleHiddenLayer hiddenLayerFrom = this.getHiddenLayers().get(hiddenLayerFromIndex);
+		SimpleHiddenLayer hiddenLayerTo = this.getHiddenLayers().get(hiddenLayerToIndex);
+
+		hiddenLayerFrom.getNeurons().forEach(neuron -> neuron.setOutput(neuron.feedForward()));
+
+		hiddenLayerTo.getNeurons().forEach(neuron -> neuron.setInputs(
+				this.getNeuralConnector().connect(
+					hiddenLayerFrom
+						.getNeurons()
+						.stream()
+						.map(SimpleNeuron::getOutput)
+						.collect(Collectors.toList())
+				)
+			)
+		);
 	}
 }

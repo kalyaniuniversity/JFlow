@@ -6,5 +6,6 @@ public interface NeuralNetwork<H extends AbstractHiddenLayer<?>> {
 	void buildNetwork();
 	void processOutput();
 	void prepareHiddenLayer(H layer);
+	void activateHiddenLayer(int hiddenLayerIndex);
 	void run();
 }
