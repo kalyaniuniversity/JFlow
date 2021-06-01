@@ -7,11 +7,13 @@ import com.debacharya.jflow.nn.datastructure.synapse.AbstractSynapse;
 import com.debacharya.jflow.nn.datastructure.weight.AbstractWeight;
 import com.debacharya.jflow.nn.snapshot.NeuronSnapshot;
 import com.debacharya.jflow.util.Utility;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Getter
 public abstract class AbstractNeuron<
 		P extends AbstractDendrite<?>,
 		Q extends AbstractSynapse<?>,
@@ -47,10 +49,6 @@ public abstract class AbstractNeuron<
 		this.inputs = inputs;
 	}
 
-	public List<P> getInputs() {
-		return inputs;
-	}
-
 	public P getInput(int index) {
 		if(index >= this.inputs.size())
 			throw new ArrayIndexOutOfBoundsException("There are no Neuron Inputs at index: " + index);
@@ -81,30 +79,14 @@ public abstract class AbstractNeuron<
 		return (this.inputs != null) && !this.inputs.isEmpty();
 	}
 
-	public Q getOutput() {
-		return output;
-	}
-
 	public void setOutput(Q output) {
 		this.output = output;
-	}
-
-	public List<R> getWeights() {
-		return weights;
 	}
 
 	public R getWeight(int index) {
 		if(index >= this.weights.size())
 			throw new ArrayIndexOutOfBoundsException("There is no Connection Weight at index: " + index);
 		return this.weights.get(index);
-	}
-
-	public S getBias() {
-		return bias;
-	}
-
-	public ActivationFunction<P, Q, R, S> getActivationFunction() {
-		return this.activationFunction;
 	}
 
 	public void takeSnapshot() {

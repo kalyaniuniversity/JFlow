@@ -9,9 +9,13 @@ import com.debacharya.jflow.nn.datastructure.weight.AbstractWeight;
 import com.debacharya.jflow.nn.hiddenlayer.AbstractHiddenLayer;
 import com.debacharya.jflow.nn.inputlayer.AbstractInputLayer;
 import com.debacharya.jflow.nn.outputlayer.AbstractOutputLayer;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 import java.util.List;
 
+@Getter
+@AllArgsConstructor
 public abstract class AbstractNeuralNetwork<
 		I extends AbstractInputLayer<? extends AbstractDendrite<?>>,
 		H extends AbstractHiddenLayer<
@@ -47,29 +51,6 @@ public abstract class AbstractNeuralNetwork<
 		this.outputLayer = outputLayer;
 		this.hiddenLayers = null;
 		this.neuralConnector = null;
-	}
-
-	public AbstractNeuralNetwork(I inputLayer, List<H> hiddenLayers, O outputLayer, C neuralConnector) {
-		this.inputLayer = inputLayer;
-		this.hiddenLayers = hiddenLayers;
-		this.outputLayer = outputLayer;
-		this.neuralConnector = neuralConnector;
-	}
-
-	public I getInputLayer() {
-		return inputLayer;
-	}
-
-	public List<H> getHiddenLayers() {
-		return hiddenLayers;
-	}
-
-	public O getOutputLayer() {
-		return outputLayer;
-	}
-
-	public C getNeuralConnector() {
-		return neuralConnector;
 	}
 
 	@Override
