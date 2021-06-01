@@ -19,9 +19,9 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 public class SimpleNeuralNetworkTest {
-	
+
 	@Test
-	public void manyHiddenLayerTest() {
+	public void manyHiddenLayersTest() {
 
 		List<SimpleDendrite> inputs = new ArrayList<>();
 		List<SimpleWeight> weights = new ArrayList<>();
