@@ -10,19 +10,18 @@ import com.debacharya.jflow.nn.hiddenlayer.HiddenLayerProvider;
 import com.debacharya.jflow.nn.hiddenlayer.SimpleHiddenLayer;
 import com.debacharya.jflow.nn.inputlayer.SimpleInputLayer;
 import com.debacharya.jflow.nn.outputlayer.SimpleOutputLayer;
+import org.junit.Assert;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
+
 public class SimpleNeuralNetworkTest {
-
-	public static void main(String[] args) {
-		SimpleNeuralNetworkTest.noHiddenLayerTest();
-//		SimpleNeuralNetworkTest.oneHiddenLayerTest();
-//		SimpleNeuralNetworkTest.manyHiddenLayerTest();
-	}
-
-	public static void manyHiddenLayerTest() {
+	
+	@Test
+	public void manyHiddenLayerTest() {
 
 		List<SimpleDendrite> inputs = new ArrayList<>();
 		List<SimpleWeight> weights = new ArrayList<>();
@@ -80,9 +79,12 @@ public class SimpleNeuralNetworkTest {
 		SimpleSynapse output = neuralNetwork.getOutputLayer().getResult();
 
 		System.out.println("Output is: " + output.getValue());
+
+		assertEquals(0.662, output.getValue(), 0.0002d);
 	}
 
-	public static void oneHiddenLayerTest() {
+	@Test
+	public void oneHiddenLayerTest() {
 
 		List<SimpleDendrite> inputs = new ArrayList<>();
 		List<SimpleWeight> weights = new ArrayList<>();
@@ -124,9 +126,12 @@ public class SimpleNeuralNetworkTest {
 		SimpleSynapse output = neuralNetwork.getOutputLayer().getResult();
 
 		System.out.println("Output is: " + output.getValue());
+
+		assertEquals(0.7216, output.getValue(), 0.0004d);
 	}
 
-	public static void noHiddenLayerTest() {
+	@Test
+	public void noHiddenLayerTest() {
 
 		List<SimpleDendrite> inputs = new ArrayList<>();
 		List<SimpleWeight> weights = new ArrayList<>();
@@ -155,5 +160,7 @@ public class SimpleNeuralNetworkTest {
 		SimpleSynapse output = neuralNetwork.getOutputLayer().getResult();
 
 		System.out.println("Output is: " + output.getValue());
+
+		assertEquals(0.999, output.getValue(), 0.00009d);
 	}
 }
