@@ -17,9 +17,9 @@ import java.util.List;
 public class SimpleNeuralNetworkTest {
 
 	public static void main(String[] args) {
-//		SimpleNeuralNetworkTest.noHiddenLayerTest();
+		SimpleNeuralNetworkTest.noHiddenLayerTest();
 //		SimpleNeuralNetworkTest.oneHiddenLayerTest();
-		SimpleNeuralNetworkTest.manyHiddenLayerTest();
+//		SimpleNeuralNetworkTest.manyHiddenLayerTest();
 	}
 
 	public static void manyHiddenLayerTest() {
